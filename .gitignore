@@ -13,3 +13,5 @@ erl_crash.dump
 .rebar
 logs
 _build
+priv/libzstd/libzstd.a
+priv/zstd_nif.so

@@ -1,13 +1,38 @@
 -module(zstd).
 
-%% API exports
--export([]).
+-export([compress/1, compress/2]).
+-export([decompress/1]).
 
-%%====================================================================
-%% API functions
-%%====================================================================
+-on_load(init/0).
 
+-define(APPNAME, zstd).
+-define(LIBNAME, zstd_nif).
 
-%%====================================================================
-%% Internal functions
-%%====================================================================
+-spec compress(Uncompressed :: binary()) -> Compressed :: binary().
+compress(Binary) ->
+    compress(Binary, 1).
+
+-spec compress(Uncompressed :: binary(), CompressionLevel :: 0..22) -> Compressed :: binary().
+compress(_, _) ->
+    not_loaded(?LINE).
+
+-spec decompress(Compressed :: binary()) -> Uncompressed :: binary().
+decompress(_) ->
+    not_loaded(?LINE).
+
+init() ->
+    SoName = case code:priv_dir(?APPNAME) of
+        {error, bad_name} ->
+            case filelib:is_dir(filename:join(["..", priv])) of
+                true ->
+                    filename:join(["..", priv, ?LIBNAME]);
+                _ ->
+                    filename:join([priv, ?LIBNAME])
+            end;
+        Dir ->
+            filename:join(Dir, ?LIBNAME)
+    end,
+    erlang:load_nif(SoName, 0).
+
+not_loaded(Line) ->
+    exit({not_loaded, [{module, ?MODULE}, {line, Line}]}).
