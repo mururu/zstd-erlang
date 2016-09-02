@@ -9,7 +9,7 @@
   {env,[]},
   {modules, []},
 
-  {maintainers, []},
-  {licenses, []},
-  {links, []}
+  {maintainers, ["Yuki Ito"]},
+  {licenses, ["BSD"]},
+  {links, [{"Github", "https://github.com/mururu/zstd-erlang"}]}
  ]}.
