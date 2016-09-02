@@ -3,6 +3,8 @@ zstd-erlang
 
 [![Build Status](https://travis-ci.org/mururu/zstd-erlang.svg?branch=master)](https://travis-ci.org/mururu/zstd-erlang)
 
+[![Hex.pm](https://img.shields.io/hexpm/v/zstd.svg?maxAge=2592000)]()
+
 Zstd binding for Erlang/Elixir
 
 http://facebook.github.io/zstd/
