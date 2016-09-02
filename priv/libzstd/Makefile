@@ -66,13 +66,13 @@ compile: libzstd.a
 
 libzstd.a: $(ZSTD_FILES)
 	@echo compiling static library
-	@$(CC) $(FLAGS) -c $^
+	@$(CC) $(FLAGS) -fPIC -c $^
 	@$(AR) rcs $@ *.o
 ########################
 
 libzstd: $(ZSTD_FILES)
 	@echo compiling static library
-	@$(CC) $(FLAGS) -c $^
+	@$(CC) $(FLAGS) -fPIC -c $^
 	@$(AR) rcs $@.a *.o
 	@echo compiling dynamic library $(LIBVER)
 	@$(CC) $(FLAGS) -shared $^ -fPIC $(SONAME_FLAGS) -o $@.$(SHARED_EXT_VER)
