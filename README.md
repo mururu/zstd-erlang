@@ -1,6 +1,8 @@
 zstd-erlang
 =====
 
+[![Build Status](https://travis-ci.org/mururu/zstd-erlang.svg?branch=master)](https://travis-ci.org/mururu/zstd-erlang)
+
 Zstd binding for Erlang/Elixir
 
 http://facebook.github.io/zstd/
