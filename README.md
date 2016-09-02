@@ -1,7 +1,7 @@
 zstd-erlang
 =====
 
-Zstd binding for Erlang
+Zstd binding for Erlang/Elixir
 
 http://facebook.github.io/zstd/
 
@@ -22,4 +22,14 @@ zstd:decompress(Binary).
   111,114,108,100,33>>
 2> zstd:decompress(Compressed).
 <<"Hello, World!">>
+```
+
+#### For Elixir
+
+```
+iex(1)> compressed = :zstd.compress("Hello, World!")
+<<40, 181, 47, 253, 32, 13, 105, 0, 0, 72, 101, 108, 108, 111, 44, 32, 87, 111,
+  114, 108, 100, 33>>
+iex(2)> :zstd.decompress(compressed)
+"Hello, World!"
 ```
