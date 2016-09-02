@@ -1,5 +1,5 @@
 {application, zstd,
- [{description, "An OTP library"},
+ [{description, "Zstd binding for Erlang/Elixir"},
   {vsn, "0.1.0"},
   {registered, []},
   {applications,
@@ -11,5 +11,5 @@
 
   {maintainers, ["Yuki Ito"]},
   {licenses, ["BSD"]},
-  {links, [{"Github", "https://github.com/mururu/zstd-erlang"}]}
+  {links, [{"GitHub", "https://github.com/mururu/zstd-erlang"}]}
  ]}.
