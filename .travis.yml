@@ -1,0 +1,6 @@
+before_script:
+  - kerl list installations
+
+language: erlang
+otp_release:
+  - 19.0
