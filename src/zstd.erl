@@ -14,11 +14,11 @@ compress(Binary) ->
 
 -spec compress(Uncompressed :: binary(), CompressionLevel :: 0..22) -> Compressed :: binary().
 compress(_, _) ->
-    not_loaded(?LINE).
+    erlang:nif_error(?LINE).
 
 -spec decompress(Compressed :: binary()) -> Uncompressed :: binary().
 decompress(_) ->
-    not_loaded(?LINE).
+    erlang:nif_error(?LINE).
 
 init() ->
     SoName = case code:priv_dir(?APPNAME) of
@@ -33,6 +33,3 @@ init() ->
             filename:join(Dir, ?LIBNAME)
     end,
     erlang:load_nif(SoName, 0).
-
-not_loaded(Line) ->
-    exit({not_loaded, [{module, ?MODULE}, {line, Line}]}).
