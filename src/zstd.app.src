@@ -1,15 +1,10 @@
-{application, zstd,
- [{description, "Zstd binding for Erlang/Elixir"},
-  {vsn, "0.1.0"},
-  {registered, []},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
-
-  {maintainers, ["Yuki Ito"]},
-  {licenses, ["BSD"]},
-  {links, [{"GitHub", "https://github.com/mururu/zstd-erlang"}]}
- ]}.
+{application,zstd,
+             [{description,"Zstd binding for Erlang/Elixir"},
+              {vsn,"0.1.1"},
+              {registered,[]},
+              {applications,[kernel,stdlib]},
+              {env,[]},
+              {modules,[]},
+              {maintainers,["Yuki Ito"]},
+              {licenses,["BSD"]},
+              {links,[{"GitHub","https://github.com/mururu/zstd-erlang"}]}]}.
