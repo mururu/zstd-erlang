@@ -8,7 +8,7 @@ Zstd binding for Erlang/Elixir
 
 http://facebook.github.io/zstd/
 
-The current version uses [v1.0.0](https://github.com/facebook/zstd/releases/tag/v1.0.0)
+The current version uses [v1.3.3](https://github.com/facebook/zstd/releases/tag/v1.3.3)
 
 Usage
 -----
