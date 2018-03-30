@@ -16,7 +16,7 @@ compress(Binary) ->
 compress(_, _) ->
     erlang:nif_error(?LINE).
 
--spec decompress(Compressed :: binary()) -> Uncompressed :: binary().
+-spec decompress(Compressed :: binary()) -> Uncompressed :: binary() | error.
 decompress(_) ->
     erlang:nif_error(?LINE).
 
