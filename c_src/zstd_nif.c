@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <zstd.h>
 
+ErlNifTSDKey zstdDecompressContextKey;
+
 static ERL_NIF_TERM zstd_nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   ErlNifBinary bin, ret_bin;
   size_t buff_size, compressed_size;
@@ -34,6 +36,12 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
   ErlNifBinary bin;
   unsigned long long uncompressed_size;
 
+  ZSTD_DCtx* ctx = (ZSTD_DCtx*)enif_tsd_get(zstdDecompressContextKey);
+  if (!ctx) {
+      ctx = ZSTD_createDCtx(); 
+      enif_tsd_set(zstdDecompressContextKey, ctx);
+  }
+
   if(!enif_inspect_binary(env, argv[0], &bin))
     return enif_make_badarg(env);
 
@@ -41,7 +49,7 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
 
   outp = enif_make_new_binary(env, uncompressed_size, &out);
   
-  if(ZSTD_decompress(outp, uncompressed_size, bin.data, bin.size) != uncompressed_size)
+  if(ZSTD_decompressDCtx(ctx, outp, uncompressed_size, bin.data, bin.size) != uncompressed_size)
     return enif_make_atom(env, "error");
 
   return out;
@@ -52,4 +60,10 @@ static ErlNifFunc nif_funcs[] = {
     {"decompress", 1, zstd_nif_decompress}
 };
 
-ERL_NIF_INIT(zstd, nif_funcs, NULL, NULL, NULL, NULL);
+static int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
+ {
+ enif_tsd_key_create("zstd_decompress_context_key", &zstdDecompressContextKey);
+ return 0;
+ }
+
+ERL_NIF_INIT(zstd, nif_funcs, load, NULL, NULL, NULL);
