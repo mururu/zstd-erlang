@@ -4,11 +4,18 @@
 #include <zstd.h>
 
 ErlNifTSDKey zstdDecompressContextKey;
+ErlNifTSDKey zstdCompressContextKey;
 
 static ERL_NIF_TERM zstd_nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   ErlNifBinary bin, ret_bin;
   size_t buff_size, compressed_size;
   unsigned int compression_level;
+
+  ZSTD_CCtx* ctx = (ZSTD_CCtx*)enif_tsd_get(zstdCompressContextKey);
+  if (!ctx) {
+      ctx = ZSTD_createCCtx(); 
+      enif_tsd_set(zstdCompressContextKey, ctx);
+  }
 
   if(!enif_inspect_binary(env, argv[0], &bin)
      || !enif_get_uint(env, argv[1], &compression_level)
@@ -20,7 +27,7 @@ static ERL_NIF_TERM zstd_nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TE
   if(!enif_alloc_binary(buff_size, &ret_bin))
     return enif_make_atom(env, "error");
   
-  compressed_size = ZSTD_compress(ret_bin.data, buff_size, bin.data, bin.size, compression_level);
+  compressed_size = ZSTD_compressCCtx(ctx, ret_bin.data, buff_size, bin.data, bin.size, compression_level);
   if(ZSTD_isError(compressed_size))
     return enif_make_atom(env, "error");
 
@@ -63,6 +70,7 @@ static ErlNifFunc nif_funcs[] = {
 static int load(ErlNifEnv* env, void** priv_data, ERL_NIF_TERM load_info)
  {
  enif_tsd_key_create("zstd_decompress_context_key", &zstdDecompressContextKey);
+ enif_tsd_key_create("zstd_compress_context_key", &zstdCompressContextKey);
  return 0;
  }
 
