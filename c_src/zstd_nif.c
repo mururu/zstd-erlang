@@ -17,7 +17,7 @@ static ERL_NIF_TERM zstd_nif_compress(ErlNifEnv* env, int argc, const ERL_NIF_TE
 
   if(!enif_alloc_binary(buff_size, &ret_bin))
     return enif_make_atom(env, "error");
-  
+
   compressed_size = ZSTD_compress(ret_bin.data, buff_size, bin.data, bin.size, compression_level);
   if(ZSTD_isError(compressed_size))
     return enif_make_atom(env, "error");
@@ -40,7 +40,7 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
   uncompressed_size = ZSTD_getDecompressedSize(bin.data, bin.size);
 
   outp = enif_make_new_binary(env, uncompressed_size, &out);
-  
+
   if(ZSTD_decompress(outp, uncompressed_size, bin.data, bin.size) != uncompressed_size)
     return enif_make_atom(env, "error");
 
@@ -48,7 +48,7 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
 }
 
 static ErlNifFunc nif_funcs[] = {
-    {"compress", 2, zstd_nif_compress},
+    {"compress_bin", 2, zstd_nif_compress},
     {"decompress", 1, zstd_nif_decompress}
 };
 
