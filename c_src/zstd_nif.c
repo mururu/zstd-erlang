@@ -42,7 +42,7 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
   outp = enif_make_new_binary(env, uncompressed_size, &out);
 
   if(ZSTD_decompress(outp, uncompressed_size, bin.data, bin.size) != uncompressed_size)
-    return enif_make_atom(env, "error");
+    return enif_make_badarg(env);
 
   return out;
 }
