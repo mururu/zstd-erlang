@@ -1,6 +1,6 @@
 -module(zstd).
 
--export([compress/1, compress/2]).
+-export([compress/1, compress/2, compress_bin/2]).
 -export([decompress/1]).
 
 -on_load(init/0).
@@ -8,12 +8,15 @@
 -define(APPNAME, zstd).
 -define(LIBNAME, zstd_nif).
 
--spec compress(Uncompressed :: binary()) -> Compressed :: binary().
-compress(Binary) ->
-    compress(Binary, 1).
+-spec compress(Uncompressed :: iodata()) -> Compressed :: binary().
+compress(IoData) ->
+    compress(IoData, 1).
 
--spec compress(Uncompressed :: binary(), CompressionLevel :: 0..22) -> Compressed :: binary().
-compress(_, _) ->
+-spec compress(Uncompressed :: iodata(), CompressionLevel :: 0..22) -> Compressed :: binary().
+compress(IoData, Level) ->
+    compress_bin(iolist_to_binary(IoData), Level).
+
+compress_bin(_, _) ->
     erlang:nif_error(?LINE).
 
 -spec decompress(Compressed :: binary()) -> Uncompressed :: binary().
