@@ -48,8 +48,8 @@ static ERL_NIF_TERM zstd_nif_decompress(ErlNifEnv* env, int argc, const ERL_NIF_
 }
 
 static ErlNifFunc nif_funcs[] = {
-    {"compress", 2, zstd_nif_compress},
-    {"decompress", 1, zstd_nif_decompress}
+    {"compress", 2, zstd_nif_compress, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"decompress", 1, zstd_nif_decompress, ERL_NIF_DIRTY_JOB_CPU_BOUND}
 };
 
 ERL_NIF_INIT(zstd, nif_funcs, NULL, NULL, NULL, NULL);
