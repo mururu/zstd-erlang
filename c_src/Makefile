@@ -16,10 +16,16 @@ C_SRC_OUTPUT ?= $(CURDIR)/../priv/$(PROJECT).so
 
 UNAME_SYS := $(shell uname -s)
 ifeq ($(UNAME_SYS), Darwin)
-	CC ?= cc
-	CFLAGS ?= -O3 -std=c99 -arch x86_64 -Wall -Wmissing-prototypes
-	CXXFLAGS ?= -O3 -arch x86_64 -finline-functions -Wall
-	LDFLAGS ?= -arch x86_64 -flat_namespace -undefined suppress
+	HOMEBREW_PREFIX ?= $(shell brew --prefix)
+
+	CC      ?= cc
+	CFLAGS  ?= -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes
+	CFLAGS  += -I $(HOMEBREW_PREFIX)/include -I $(HOMEBREW_PREFIX)/opt/openssl/include
+	LDFLAGS := $(LDFLAGS) -L $(HOMEBREW_PREFIX)/lib -L $(HOMEBREW_PREFIX)/opt/openssl/lib \
+		-mmacosx-version-min=$(shell sw_vers -productVersion) \
+		-Wl,-syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
+		-flat_namespace -undefined suppress
+	LDLIBS  += -L $(HOMEBREW_PREFIX)/opt/openssl/lib
 else ifeq ($(UNAME_SYS), FreeBSD)
 	CC ?= cc
 	CFLAGS ?= -O3 -std=c99 -Wall -Wmissing-prototypes
